@@ -1,9 +1,9 @@
 console.log("Hello")
 const express = require('express')
+const connectToDatabase = require('./database')
 const app = express()
 
-const ConnectionString = "mongodb+srv://knowaraj:know@r@j@cluster0.cqdthg3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
+connectToDatabase()
 app.get("/",(req,res) => {
     res.send("Hello Response")
 })
