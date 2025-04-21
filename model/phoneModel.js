@@ -1,8 +1,9 @@
 const mongoose = require("mongoose")
 
-const blogSchema = new mongoose.Schema({
+const phoneSchema = new mongoose.Schema({
     phoneName : {
-        type : String
+        type : String,
+        unique : true
     },
     phonePrice : {
         type : String
@@ -14,3 +15,5 @@ const blogSchema = new mongoose.Schema({
         type : String
     }
 })
+
+const Phone = mongoose.model('Phone' , phoneSchema)
