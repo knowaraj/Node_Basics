@@ -33,11 +33,26 @@ app.post("/phone", async(req,res) =>{
     })
 })
 app.get("/phone", async (req,res) => {
-    const phones = await Phone.find()
+    const phones = await Phone.find()//returns array
     res.status(201).json({
         message : "Phone view successful",
         data : phones
     })
+})
+app.get("/phone/:id",async(req,res) => {
+    try{
+        const {id} = req.params
+        const phone = await Phone.findById(id)//returns object
+    res.status(201).json({
+        message : "Successful",
+        data : phone
+    })
+    }
+    catch(error){
+        res.status(500).json({
+            message : "Something went wrong"
+        })
+    }
 })
 
 app.listen(3000, () => {
