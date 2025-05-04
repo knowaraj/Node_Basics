@@ -32,6 +32,13 @@ app.post("/phone", async(req,res) =>{
         message : "Successfully"
     })
 })
+app.get("/phone", async (req,res) => {
+    const phones = await Phone.find()
+    res.status(201).json({
+        message : "Phone view successful",
+        data : phones
+    })
+})
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');
