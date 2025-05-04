@@ -18,13 +18,18 @@ app.get("/",(req,res) => {
 //     })
 // })
 
-app.post("/phone", (req,res) =>{
-    const {phoneName,phonePrice,imeiNumber,phoneCompany} = req.body
-    Phone.create({
+app.post("/phone", async(req,res) =>{
+    console.log(req.body)
+    const {phoneName,phonePrice,imeiNumber,phoneCompany,specs} = req.body
+    await Phone.create({
         phoneName,
         phonePrice,
         imeiNumber,
-        phoneCompany
+        phoneCompany,
+        specs
+    })
+    res.status(201).json({
+        message : "Successfully"
     })
 })
 

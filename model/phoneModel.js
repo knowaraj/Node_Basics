@@ -13,8 +13,11 @@ const phoneSchema = new mongoose.Schema({
     },
     phoneCompany : {
         type : String
+    },
+    specs : {
+        type : String
     }
 })
 
-const Phone = mongoose.model('Phone' , phoneSchema)
+const Phone = mongoose.model('Phone', phoneSchema)
 module.exports = Phone
