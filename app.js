@@ -2,8 +2,9 @@ console.log("Hello")
 const express = require('express')
 const connectToDatabase = require('./database')
 const Phone = require('./model/phoneModel')
+const { storage , multer } = require('./middleware/multerConfig')
 const app = express()
-
+const upload = multer({storage : storage})
 app.use(express.json())
 
 connectToDatabase()
@@ -18,7 +19,7 @@ app.get("/",(req,res) => {
 //     })
 // })
 
-app.post("/phone", async(req,res) =>{
+app.post("/phone",upload.single("image"), async(req,res) =>{
     console.log(req.body)
     const {phoneName,phonePrice,imeiNumber,phoneCompany,specs} = req.body
     await Phone.create({
