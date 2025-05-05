@@ -55,6 +55,18 @@ app.get("/phone/:id",async(req,res) => {
     }
 })
 
+// app.post("/phone/update/:id", async (req,res) => {
+
+// })
+
+app.delete("/phone/delete/:id", async (req,res) =>{
+    const id = req.params.id
+    await Phone.findByIdAndDelete(id)
+    res.status(201).json({
+        message : " Deleted"
+    })
+})
+
 app.listen(3000, () => {
     console.log('Server running on port 3000');
 });
