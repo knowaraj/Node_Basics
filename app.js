@@ -43,6 +43,7 @@ app.get("/phone/:id",async(req,res) => {
     try{
         const {id} = req.params
         const phone = await Phone.findById(id)//returns object
+        // Phone.findOneAndDelete({_id : id})
     res.status(201).json({
         message : "Successful",
         data : phone
@@ -55,11 +56,22 @@ app.get("/phone/:id",async(req,res) => {
     }
 })
 
-// app.post("/phone/update/:id", async (req,res) => {
+app.patch("/phone/:id", async (req,res) => {
+    const id = req.params.id
+    const {phoneName,phonePrice,imeiNumber,phoneCompany,specs} = req.body
+    await Phone.findByIdAndUpdate(id,{
+        phoneName,
+        phonePrice,
+        imeiNumber,
+        phoneCompany,
+        specs
+    })
+    res.status(201).json({
+        message : "Upadate successful"
+    })
+})
 
-// })
-
-app.delete("/phone/delete/:id", async (req,res) =>{
+app.delete("/phone/:id", async (req,res) =>{
     const id = req.params.id
     await Phone.findByIdAndDelete(id)
     res.status(201).json({
