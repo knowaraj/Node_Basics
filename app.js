@@ -1,5 +1,6 @@
 console.log("Hello")
 const express = require('express')
+const fs = require('fs')
 const connectToDatabase = require('./database')
 const Phone = require('./model/phoneModel')
 const { storage , multer } = require('./middleware/multerConfig')
@@ -20,22 +21,20 @@ app.get("/",(req,res) => {
 // })
 
 app.post("/phone",upload.single("image"), async(req,res) =>{
-    console.log(req.body)
-    console.log(req.file)
+    // console.log(req.body)
+    // console.log(req.file)
     const {phoneName,phonePrice,imeiNumber,phoneCompany,specs} = req.body
-    if(req.file.size>10000){
-        res.status(501).json({
-            message : "Error"
-        })
-        return
-    }
+    const filename = "http://localhost:3000/" + req.file.filename
+    // if(req.file.size>100000){
+    //     return
+    // }
     await Phone.create({
         phoneName,
         phonePrice,
         imeiNumber,
         phoneCompany,
         specs,
-        imageUrl:req.file.filename
+        imageUrl:filename
     })
     res.status(201).json({
         message : "Successfully"
@@ -65,15 +64,32 @@ app.get("/phone/:id",async(req,res) => {
     }
 })
 
-app.patch("/phone/:id", async (req,res) => {
+app.patch("/phone/:id",upload.single('image'), async (req,res) => {
     const id = req.params.id
     const {phoneName,phonePrice,imeiNumber,phoneCompany,specs} = req.body
+    const oldData = await Phone.findById(id)
+    let filename;
+    if(!req.file){
+        const oldImg = oldData.imageUrl
+        const oldUrllengts = "http://localhost/".length
+        const oldUrlNew = oldImg.slice(oldUrllengts)
+        fs.unlink(`storage/${oldUrlNew}`,(err) =>{
+            if(err){
+                console.log(err)
+            }
+            else{
+                console.log(success);
+            }
+        })
+        filename = "http://localhost/" + req.file.filename
+    }
     await Phone.findByIdAndUpdate(id,{
         phoneName,
         phonePrice,
         imeiNumber,
         phoneCompany,
-        specs
+        specs,
+        imageUrl : filename
     })
     res.status(201).json({
         message : "Upadate successful"
@@ -87,6 +103,8 @@ app.delete("/phone/:id", async (req,res) =>{
         message : " Deleted"
     })
 })
+
+app.use(express.static("./storage"))
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');
