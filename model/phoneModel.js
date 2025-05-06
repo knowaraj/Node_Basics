@@ -16,6 +16,9 @@ const phoneSchema = new mongoose.Schema({
     },
     specs : {
         type : String
+    },
+    imageUrl:{
+        type : String
     }
 })
 

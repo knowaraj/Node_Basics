@@ -21,13 +21,16 @@ app.get("/",(req,res) => {
 
 app.post("/phone",upload.single("image"), async(req,res) =>{
     console.log(req.body)
+    console.log(req.file)
     const {phoneName,phonePrice,imeiNumber,phoneCompany,specs} = req.body
+    
     await Phone.create({
         phoneName,
         phonePrice,
         imeiNumber,
         phoneCompany,
-        specs
+        specs,
+        imageUrl:req.file.filename
     })
     res.status(201).json({
         message : "Successfully"
