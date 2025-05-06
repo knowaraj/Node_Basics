@@ -23,7 +23,12 @@ app.post("/phone",upload.single("image"), async(req,res) =>{
     console.log(req.body)
     console.log(req.file)
     const {phoneName,phonePrice,imeiNumber,phoneCompany,specs} = req.body
-    
+    if(req.file.size>10000){
+        res.status(501).json({
+            message : "Error"
+        })
+        return
+    }
     await Phone.create({
         phoneName,
         phonePrice,
