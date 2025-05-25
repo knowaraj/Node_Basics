@@ -25,9 +25,6 @@ app.post("/phone",upload.single("image"), async(req,res) =>{
     // console.log(req.file)
     const {phoneName,phonePrice,imeiNumber,phoneCompany,specs} = req.body
     const filename = "http://localhost:3000/" + req.file.filename
-    // if(req.file.size>100000){
-    //     return
-    // }
     await Phone.create({
         phoneName,
         phonePrice,
